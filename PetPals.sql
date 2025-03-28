@@ -109,25 +109,12 @@ where EventName = "Coimbatore Pet Fest";
 location) in the "Shelters" table. Use parameters to pass the shelter ID and the new information.
 Ensure that the procedure performs the update and handles potential errors, such as an invalid
 shelter ID. */
-DELIMITER //
-
-create procedure UpdateShelterInfo(
-    IN p_ShelterID INT,
-    IN p_NewName VARCHAR(30),
-    IN p_NewLocation VARCHAR(50)
-)
+delimiter //
+create procedure updateshelterinfo(in shelter_id int, in new_name varchar(255), in new_location varchar(255))
 begin
-    if NOT EXISTS (SELECT 1 FROM Shelters WHERE ShelterID = p_ShelterID) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Error: ShelterID does not exist.';
-    else
-        UPDATE Shelters
-        SET Name = p_NewName, Location = p_NewLocation
-        WHERE ShelterID = p_ShelterID;
-    END IF;
-END //
-
-DELIMITER ;
+update shelters set name = new_name, location = new_location where shelterid = shelter_id;
+end //
+delimiter ;
 
 /*8. Write an SQL query that calculates and retrieves the total donation amount for each shelter (by
 shelter name) from the "Donations" table. The result should include the shelter name and the
